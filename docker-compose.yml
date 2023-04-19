@@ -1,0 +1,19 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  shresty:
+    image: rodzee/shresty:0.0.1
+    build: .      
+    restart: always
+    environment:
+      ENTRYPOINT: /bin/sh
+      COMMAND: index.sh
+    ports:
+      - 1080:1080
+    volumes:
+      - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      - ./app:/app
+    working_dir: /app
+

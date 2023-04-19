@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Shresty</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shresty Index Page">
+    <meta name="keywords" content="shresty, openresty, EXEC-API">
+
+    <!-- shresty JS -->
+    <script src="/shresty.js"></script>
+
+    <!-- simple css -->
+    <link rel="stylesheet" href="//cdn.simplecss.org/simple.css" />
+
+    <!-- jquery and handlebars -->
+    <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+    <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script> -->
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="home">Home</a>
+        <a href="login">Login</a>
+        <a href="exec">exec</a>
+      </nav>
+      <script>ShrestyJS.createPageSwitchers("header nav a", "href");</script>
+    </header>
+    <main id="home" style="display: none;">
+      <h3>
+        Welcome to Shresty
+      </h3>
+      <p>
+        register, login and exec!
+      </p>
+    </main>
+    <main id="exec" style="display: none;">
+      <p>
+        <strong>Exec</strong>
+      </p>
+      <form action="javascript:ShrestyJS.requestToElem(document.getElementById('SQLinput').value, document.getElementById('requestResultElem'))">
+        <p>
+          <label>SH:</label>
+          <textarea id="SHinput" rows="4">echo 'hello world'</textarea>
+        </p>
+        <p>
+          <input type="submit" value="Request" />
+        </p>
+      </form>
+      <textarea id="requestResultElem" rows="10"></textarea>
+    </main>
+    <main id="login" style="display: none;">      
+      <p>
+        <strong>Login</strong>
+      </p>
+      <form action="javascript:ShrestyJS.loginToElem(document.getElementById('UsernamePg').value, document.getElementById('PasswordPg').value, document.getElementById('loginResult'))">
+        <p>
+          <label>Username: </label>
+          <input id="UsernamePg" value="" autocomplete="username" />
+        </p>
+        <p>
+          <label>Password: </label>
+          <input id="PasswordPg" type="password" value="" autocomplete="current-password" />
+        </p>
+        <p>
+          <input type="submit" value="Login" />
+        </p>
+        <p id="loginResult">
+          Enter your username and password
+        </p>
+      </form>
+    </main>
+    <footer>
+      Shresty
+    </footer>
+  </body>
+</html>
