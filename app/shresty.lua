@@ -20,7 +20,7 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   local shell = require "shell-games"
 
   -- EXECUTE COMMAND
-  local result, err = shell.run({ "echo", "'hello world'" })
+  local result, err = shell.capture_combined({ "ls", "-l", "/" })
 
   -- RETURN ERROR
   if err then
