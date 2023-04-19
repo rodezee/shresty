@@ -93,8 +93,7 @@ ShrestyJS.requestToFunction = (EXEC, returnFunc = function(response){return resp
                 ShrestyJS.log("Header Authorization", HttpPG.getResponseHeader("Authorization"));
                 ShrestyJS.readCredentialsFromAuthorizationHeader(HttpPG.getResponseHeader("Authorization"));
             }
-            var r = HttpPG.responseText;
-            returnFunc(r);
+            returnFunc(HttpPG.responseText);
         }
     }
 }

@@ -22,7 +22,7 @@
       <nav>
         <a href="home">Home</a>
         <a href="login">Login</a>
-        <a href="exec">exec</a>
+        <a href="exec">Exec</a>
       </nav>
       <script>ShrestyJS.createPageSwitchers("header nav a", "href");</script>
     </header>
@@ -53,14 +53,14 @@
       <p>
         <strong>Login</strong>
       </p>
-      <form action="javascript:ShrestyJS.loginToElem(document.getElementById('UsernamePg').value, document.getElementById('PasswordPg').value, document.getElementById('loginResult'))">
+      <form action="javascript:ShrestyJS.loginToElem(document.getElementById('UsernameSHR').value, document.getElementById('PasswordSHR').value, document.getElementById('loginResult'))">
         <p>
           <label>Username: </label>
-          <input id="UsernamePg" value="" autocomplete="username" />
+          <input id="UsernameSHR" value="" autocomplete="username" />
         </p>
         <p>
           <label>Password: </label>
-          <input id="PasswordPg" type="password" value="" autocomplete="current-password" />
+          <input id="PasswordSHR" type="password" value="" autocomplete="current-password" />
         </p>
         <p>
           <input type="submit" value="Login" />
