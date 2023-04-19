@@ -17,19 +17,14 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   end
   if isempty(loggerON) then loggerON = false end
 
-  local exec = require 'resty.exec'
-  local prog = exec.new('/tmp/exec.sock')
+  local shell = require "shell-games"
 
-  local res, err = prog( {
-    argv = 'cat',
-    stdin = 'fun!',
-    stdout = function(data) print(data) end,
-    stderr = function(data) print("error:", data) end
-  } )
-
-  -- res = { stdout = nil, stderr = nil, exitcode = 0, termsig = nil }
-  -- err = nil
-  -- 'fun!' is printed
+  -- Execute a command, with error handling.
+  local result, err = shell.run({ "touch", "/tmp/hello.txt" })
+  if err then
+    print(err)
+    exit(1)
+  end
 
   -- CONNECT SHELL
   if err then
