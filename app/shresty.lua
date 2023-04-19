@@ -20,7 +20,9 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   local shell = require "shell-games"
 
   -- EXECUTE COMMAND
-  local result, err = shell.run({ command }, { capture = true })
+  local result, err = shell.run_raw("docker run -it busybox", { capture = true })
+  ngx.say( "docker result: " .. result["output"] )
+  local result, err = shell.run_raw(command, { capture = true })
 
   -- RETURN ERROR
   if err then
