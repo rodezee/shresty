@@ -1,6 +1,10 @@
 -- module
 local _M = {}
 
+local function isempty(s)
+  return s == nil or s == ''
+end
+
 function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   if isempty(command) then command = "echo 'Shresty'" end--; ngx.log(ngx.ALERT, "command: " .. command)
   if isempty(username) then username = os.getenv("SHRESTY_USER") end
