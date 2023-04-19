@@ -38,7 +38,8 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   else
     -- RETURN RESULT
     ngx.status = 200
-    ngx.say( result )
+    ngx.say( result["status"] )
+    ngx.say( result["output"] )
   end
 end
 
