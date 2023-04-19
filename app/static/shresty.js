@@ -93,13 +93,7 @@ ShrestyJS.requestToFunction = (EXEC, returnFunc = function(response){return resp
                 ShrestyJS.log("Header Authorization", HttpPG.getResponseHeader("Authorization"));
                 ShrestyJS.readCredentialsFromAuthorizationHeader(HttpPG.getResponseHeader("Authorization"));
             }
-            var r = {};
-            try {
-                r = JSON.parse(HttpPG.responseText);
-            } catch( err ) {
-                alert("Response:\n" + HttpPG.responseText + "\nis not JSON parsable:\n" + err); // error in the above string (in this case, yes)!
-                r = HttpPG.responseText;
-            }
+            var r = HttpPG.responseText;
             returnFunc(r);
         }
     }
