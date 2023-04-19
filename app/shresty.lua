@@ -19,14 +19,10 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
 
   local shell = require "shell-games"
 
-  -- Execute a command, with error handling.
-  local result, err = shell.run({ "touch", "/tmp/hello.txt" })
-  if err then
-    print(err)
-    exit(1)
-  end
+  -- EXECUTE COMMAND
+  local result, err = shell.run({ "echo", "'hello world'" })
 
-  -- CONNECT SHELL
+  -- RETURN ERROR
   if err then
     if err == "connection refused" then
       ngx.status = 500
@@ -40,9 +36,9 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
       ngx.print( err )      
     end
   else
-    -- RUN COMMAND
+    -- RETURN RESULT
     ngx.status = 200
-    ngx.say( res )
+    ngx.say( result )
   end
 end
 
