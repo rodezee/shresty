@@ -20,7 +20,7 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   local shell = require "shell-games"
 
   -- EXECUTE COMMAND
-  local result, err = shell.capture_combined({ "ls", "-l", "/" })
+  local result, err = shell.run_raw(command, { capture = true, })
 
   -- RETURN ERROR
   if err then
@@ -29,7 +29,7 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
       ngx.print( "database connection refused, wrong port, host or db specified" )
     elseif err == "authentication exchange unsuccessful" then
       ngx.status = 401
-      ngx.header['WWW-Authenticate'] = 'Basic realm="Postgresty Authorization", charset="UTF-8"'
+      ngx.header['WWW-Authenticate'] = 'Basic realm="Shresty Authorization", charset="UTF-8"'
       ngx.print( err )
     else -- unknown connection error
       ngx.status = 400
@@ -38,7 +38,6 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   else
     -- RETURN RESULT
     ngx.status = 200
-    --ngx.say( result["status"] )
     ngx.say( result["output"] )
   end
 end
