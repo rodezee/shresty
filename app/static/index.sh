@@ -1,7 +1,5 @@
 #!/bin/sh
-# -*- coding: utf-8 -*-
 NAME="hello world"
-echo "Content-type:text/html\r\n"
 echo "<html><head>"
 echo "<title>$NAME</title>"
 echo '<meta name="description" content="'$NAME'">'
