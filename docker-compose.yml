@@ -15,5 +15,6 @@ services:
     volumes:
       - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./app:/app
+      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /app
 
