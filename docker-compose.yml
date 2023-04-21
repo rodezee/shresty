@@ -5,7 +5,7 @@ services:
 
   shresty:
     image: rodzee/shresty:0.0.1
-    build: .      
+    #build: .      
     restart: always
     environment:
       ENTRYPOINT: /bin/sh
