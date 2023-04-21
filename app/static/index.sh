@@ -1,6 +1,6 @@
 #!/bin/sh
 # -*- coding: utf-8 -*-
-NAME=`"cpuinfo"`
+NAME=`"uname -a"`
 echo "Content-type:text/html\r\n"
 echo "<html><head>"
 echo "<title>$NAME</title>"
