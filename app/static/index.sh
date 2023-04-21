@@ -1,6 +1,6 @@
 #!/bin/sh
 # -*- coding: utf-8 -*-
-NAME=`"uname -a"`
+NAME=$(echo "test")
 echo "Content-type:text/html\r\n"
 echo "<html><head>"
 echo "<title>$NAME</title>"
