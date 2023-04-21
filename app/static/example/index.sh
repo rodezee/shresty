@@ -12,5 +12,5 @@ echo "date and time: "
 date
 echo "\n"
 echo "docker run hello-world"
-docker run hello-world
+docker run -it hello-world
 echo "</pre></body></html>"
