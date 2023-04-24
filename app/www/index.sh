@@ -10,6 +10,6 @@ echo "</head><body>"
 echo "<pre>"
 echo "Welcome to the SHELL Website!"
 echo "</pre>"
-ls -d *./example/
+ls -d ./example/
 echo "</body>"
 echo "</html>"
