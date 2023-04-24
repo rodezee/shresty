@@ -15,9 +15,9 @@ echo "Welcome to the SHELL Website!"
 echo "</pre>"
 echo "example: "
 for f in $BASEDIR/examples/*; do
-  echo "<a href='../$f'>$f</a>"
+  echo "<p><a href='../$f'>$f</a></p>"
 done
 sleep 2
-echo "did sleep for two seconds"
+echo "<p>did sleep for two seconds</p>"
 echo "</body>"
 echo "</html>"
