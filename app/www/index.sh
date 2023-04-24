@@ -17,5 +17,7 @@ echo "example: "
 for f in $BASEDIR/examples/*; do
   echo "<a href='../$f'>$f</a>"
 done
+sleep 2
+echo "did sleep for two seconds"
 echo "</body>"
 echo "</html>"
