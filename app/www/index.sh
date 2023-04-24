@@ -18,6 +18,5 @@ for f in $BASEDIR/examples/*; do
   echo "<p>$f</p>"
 done
 echo "<a href=\"./examples\">examples</a>"
-echo "<p>did sleep for two seconds</p>"
 echo "</body>"
 echo "</html>"
