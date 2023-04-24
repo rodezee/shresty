@@ -1,5 +1,8 @@
 #!/bin/sh
+
 NAME="uname"
+BASEDIR=$(dirname "$0")
+
 echo "<html><head>"
 echo "<title>$NAME</title>"
 echo '<meta name="description" content="'$NAME'">'
@@ -10,6 +13,6 @@ echo "</head><body>"
 echo "<pre>"
 echo "Welcome to the SHELL Website!"
 echo "</pre>"
-ls -d ./example/
+ls -d $BASEDIR/example/
 echo "</body>"
 echo "</html>"
