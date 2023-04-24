@@ -1,16 +1,15 @@
 #!/bin/sh
-NAME="hello world"
+NAME="uname"
 echo "<html><head>"
 echo "<title>$NAME</title>"
 echo '<meta name="description" content="'$NAME'">'
 echo '<meta name="keywords" content="'$NAME'">'
-echo '<meta http-equiv="Content-type"
-content="text/html;charset=UTF-8">'
+echo '<meta http-equiv="Content-type" content="text/html;charset=UTF-8">'
 echo '<meta name="ROBOTS" content="noindex">'
-echo "</head><body><pre>"
-date
-echo "\nuname -a"
-uname -a
-echo "\ncpuinfo"
-cat /proc/cpuinfo
-echo "</pre></body></html>"
+echo "</head><body>"
+echo "<pre>"
+echo "Welcome to the SHELL Website!"
+echo "</pre>"
+ls -d *./example/
+echo "</body>"
+echo "</html>"

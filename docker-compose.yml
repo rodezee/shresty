@@ -10,11 +10,11 @@ services:
     environment:
       ENTRYPOINT: /bin/sh
       COMMAND: index.sh
+      COOKIE_SECRET: V2OPWuh8RaS6ewUGL580qCr
     ports:
       - 1080:1080
     volumes:
       - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./app:/app
-      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /app
 
