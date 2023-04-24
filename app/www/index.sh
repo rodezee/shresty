@@ -13,6 +13,9 @@ echo "</head><body>"
 echo "<pre>"
 echo "Welcome to the SHELL Website!"
 echo "</pre>"
-ls -d $BASEDIR/example/
+echo "example: "
+for f in $BASEDIR/example/*; do
+  echo "<a href='example/$f'>$f</a>"
+done
 echo "</body>"
 echo "</html>"
