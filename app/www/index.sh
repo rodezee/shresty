@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NAME="uname"
+NAME="Welcome"
 BASEDIR=$(dirname "$0")
 
 echo "<html><head>"
