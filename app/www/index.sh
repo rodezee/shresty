@@ -20,6 +20,8 @@ done
 echo "<a href=\"./examples\">examples</a>"
 echo "<h3>CHROOT</h3>"
 chroot $BASEDIR/chrootfs
+echo "<pre>"
 ping -c 2 google.com
+echo "</pre>"
 echo "</body>"
 echo "</html>"
