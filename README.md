@@ -23,7 +23,7 @@ curl http://localhost:1080/
 ## Steps
 
 ### step 1
-configure openresty to run shell commands
+:heavy_check_mark: configure openresty to run shell commands
 
 ### step 2
 encapsule sessions within jails or containers
