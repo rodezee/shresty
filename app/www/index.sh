@@ -18,10 +18,9 @@ for f in $BASEDIR/examples/*; do
   echo "<p>$f</p>"
 done
 echo "<a href=\"./examples\">examples</a>"
-echo "<h3>CHROOT</h3>"
-chroot $BASEDIR/chrootfs
+echo "<p><strong>PING:</strong></p>"
 echo "<pre>"
-ping -c 2 google.com
+ping -c 1 google.com
 echo "</pre>"
 echo "</body>"
 echo "</html>"
