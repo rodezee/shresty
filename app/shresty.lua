@@ -55,7 +55,9 @@ function _M.run(command, cid, exptime, loggerON)
   if loggerON then ngx.say("<br>cid: " .. cid) end
   local cidenv = "/app/www/environments/" .. cid .. "/"
   if loggerON then ngx.say("<br>cidenv: " .. cidenv) end
-  local handle0 = io.popen("/bin/echo " .. exptime .. " > /app/www/environments/.exptime" .. cidenv .. "; /bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv, "r")
+  local expenv = "/app/www/environments/.exptime" .. cid
+  if loggerON then ngx.say("<br>expenv: " .. expenv) end
+  local handle0 = io.popen("/bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv .. "; echo -e " .. exptime .. " > " .. expenv, "r")
   if handle0 == "" or handle0 == nil then
     ngx.status = 404
     return
@@ -65,17 +67,17 @@ function _M.run(command, cid, exptime, loggerON)
   handle0:close()
   ngx.print(result0)
 
-  -- RUN EXPIRE COMMAND
-  if loggerON then ngx.say("<br>exptime: " .. exptime) end
-  local handle1 = io.popen("[ $(date +%s) -ge $(cat /app/www/environments/.exptime" .. cidenv .. ") ] && rm -Rf " .. cidenv .. " .exptime" .. cidenv, "r")
-  if handle1 == "" or handle1 == nil then
-      ngx.status = 404
-      return
-  end
-  handle1:flush()
-  local result1 = handle1:read("*all")
-  handle1:close()
-  ngx.print(result1)
+  -- -- RUN EXPIRE COMMAND
+  -- if loggerON then ngx.say("<br>exptime: " .. exptime) end
+  -- local handle1 = io.popen("[ $(date +%s) -ge $(cat " .. expenv .. ") ] && rm -Rf " .. cidenv .. " " .. expenv, "r")
+  -- if handle1 == "" or handle1 == nil then
+  --     ngx.status = 404
+  --     return
+  -- end
+  -- handle1:flush()
+  -- local result1 = handle1:read("*all")
+  -- handle1:close()
+  -- ngx.print(result1)
 
   -- RUN COMMAND
   if loggerON then ngx.say("<br>run: " .. command) end
