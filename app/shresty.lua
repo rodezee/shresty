@@ -55,7 +55,7 @@ function _M.run(command, cid, expires, loggerON)
   if loggerON then ngx.say("cid: " .. cid) end
   local cidenv = "/app/www/environments/" .. cid .. "/"
   if loggerON then ngx.say("cidenv: " .. cidenv) end
-  local handle0 = io.popen("/bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv .. " && /bin/sh -c \"sleep " .. expires .. " && rm -Rf " .. cidenv .. " \" &", "r")
+  local handle0 = io.popen("/bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv, "r")
   if handle0 == "" or handle0 == nil then
     ngx.status = 404
     return
@@ -65,9 +65,9 @@ function _M.run(command, cid, expires, loggerON)
   handle0:close()
   ngx.print(result0)
 
-  -- RUN COMMAND
-  if loggerON then ngx.say("run: " .. command) end
-  local handle1 = io.popen("/usr/sbin/chroot " .. cidenv .. " /bin/sh +m -c \"" .. command .. "\"", "r")
+  -- RUN EXPIRE COMMAND
+  if loggerON then ngx.say("expires: " .. expires) end
+  local handle1 = io.popen("/usr/sbin/chroot " .. cidenv .. " /bin/sh +m -c \"sleep " .. expires .. " && rm -Rf " .. cidenv .. "\" &", "r")
   if handle1 == "" or handle1 == nil then
       ngx.status = 404
       return
@@ -75,6 +75,19 @@ function _M.run(command, cid, expires, loggerON)
   handle1:flush()
   local result1 = handle1:read("*all")
   handle1:close()
+  ngx.print(result1)
+end
+
+  -- RUN COMMAND
+  if loggerON then ngx.say("run: " .. command) end
+  local handle2 = io.popen("/usr/sbin/chroot " .. cidenv .. " /bin/sh +m -c \"" .. command .. "\"", "r")
+  if handle2 == "" or handle2 == nil then
+      ngx.status = 404
+      return
+  end
+  handle2:flush()
+  local result1 = handle2:read("*all")
+  handle2:close()
   ngx.print(result1)
 end
 
