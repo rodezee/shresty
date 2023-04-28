@@ -67,16 +67,16 @@ function _M.run(command, cid, exptime, loggerON)
   handle0:close()
   ngx.print(result0)
 
-  -- -- RUN EXPIRE COMMAND
-  -- if loggerON then ngx.say("<br>exptime: " .. exptime) end
-  -- local handle1 = io.popen("[ $(date +%s) -ge $(cat " .. expenv .. ") ] && rm -Rf " .. cidenv .. " " .. expenv, "r")
-  -- if handle1 == "" or handle1 == nil then
-  --     ngx.status = 404
-  --     return
-  -- end
+  -- RUN EXPIRE COMMAND
+  if loggerON then ngx.say("<br>exptime: " .. exptime) end
+  local handle1 = io.popen("/app/www/cleanupexpenv.sh &", "r")
+  if handle1 == "" or handle1 == nil then
+      ngx.status = 404
+      return
+  end
   -- handle1:flush()
   -- local result1 = handle1:read("*all")
-  -- handle1:close()
+  handle1:close()
   -- ngx.print(result1)
 
   -- RUN COMMAND
