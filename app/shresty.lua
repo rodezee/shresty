@@ -42,10 +42,10 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   end
 end
 
-function _M.run(command, cid, expires, loggerON)
+function _M.run(command, cid, exptime, loggerON)
   if isempty(command) then command = "echo \"shresty\"" end
   if isempty(cid) then cid = 0 end
-  if isempty(expires) then expires = 0 end
+  if isempty(exptime) then exptime = 0 end
   if isempty(loggerON) then loggerON = false end
 
   -- DISABLE io stdout buffer
@@ -55,7 +55,7 @@ function _M.run(command, cid, expires, loggerON)
   if loggerON then ngx.say("<br>cid: " .. cid) end
   local cidenv = "/app/www/environments/" .. cid .. "/"
   if loggerON then ngx.say("<br>cidenv: " .. cidenv) end
-  local handle0 = io.popen("[ -d " .. cidenv .. " ] && /bin/touch " .. cidenv .. ".expkeep || /bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv, "r")
+  local handle0 = io.popen("/bin/echo " .. exptime .. " > .exptime" .. cidenv .. "; /bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv, "r")
   if handle0 == "" or handle0 == nil then
     ngx.status = 404
     return
@@ -66,13 +66,16 @@ function _M.run(command, cid, expires, loggerON)
   ngx.print(result0)
 
   -- RUN EXPIRE COMMAND
-  if loggerON then ngx.say("<br>expires: " .. expires) end
-  local handle1 = io.popen("/bin/sh +m -c \"sleep " .. expires .. " && [ -f " .. cidenv .. ".expkeep ] || rm -Rf " .. cidenv .. "\" &", "w")
+  if loggerON then ngx.say("<br>exptime: " .. exptime) end
+  local handle1 = io.popen("[ $(date +%s) -ge $(cat .exptime" .. cidenv .. ") ] && rm -Rf " .. cidenv .. " .exptime" .. cidenv, "r")
   if handle1 == "" or handle1 == nil then
       ngx.status = 404
       return
   end
+  handle1:flush()
+  local result1 = handle1:read("*all")
   handle1:close()
+  ngx.print(result1)
 
   -- RUN COMMAND
   if loggerON then ngx.say("<br>run: " .. command) end
