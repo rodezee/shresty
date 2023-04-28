@@ -76,7 +76,6 @@ function _M.run(command, cid, expires, loggerON)
   local result1 = handle1:read("*all")
   handle1:close()
   ngx.print(result1)
-end
 
   -- RUN COMMAND
   if loggerON then ngx.say("run: " .. command) end
@@ -86,9 +85,9 @@ end
       return
   end
   handle2:flush()
-  local result1 = handle2:read("*all")
+  local result2 = handle2:read("*all")
   handle2:close()
-  ngx.print(result1)
+  ngx.print(result2)
 end
 
 return _M
