@@ -55,7 +55,7 @@ function _M.run(command, cid, expires, loggerON)
   if loggerON then ngx.say("cid: " .. cid) end
   local cidenv = "/app/www/environments/" .. cid .. "/"
   if loggerON then ngx.say("cidenv: " .. cidenv) end
-  local handle0 = io.popen("/bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv .. " && sleep " .. expires .. " && rm -Rf " .. cidenv, "r")
+  local handle0 = io.popen("/bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv .. " && /bin/sh -c \"sleep " .. expires .. " && rm -Rf " .. cidenv .. " &\"", "r")
   if handle0 == "" or handle0 == nil then
     ngx.status = 404
     return
