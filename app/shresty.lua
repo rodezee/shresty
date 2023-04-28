@@ -69,7 +69,7 @@ function _M.run(command, cid, exptime, loggerON)
 
   -- RUN EXPIRE COMMAND
   if loggerON then ngx.say("<br>exptime: " .. exptime) end
-  local handle1 = io.popen("/app/www/cleanupexpenv.sh &", "r")
+  local handle1 = io.popen("/bin/sh -c \"/app/www/cleanupexpenv.sh\" &", "r")
   if handle1 == "" or handle1 == nil then
       ngx.status = 404
       return
