@@ -52,9 +52,9 @@ function _M.run(command, cid, expires, loggerON)
   io.stdout:setvbuf 'no'
 
   -- CREATE CHROOT ENVIRONMENT
-  if loggerON then ngx.say("cid: " .. cid) end
+  if loggerON then ngx.say("<br>cid: " .. cid) end
   local cidenv = "/app/www/environments/" .. cid .. "/"
-  if loggerON then ngx.say("cidenv: " .. cidenv) end
+  if loggerON then ngx.say("<br>cidenv: " .. cidenv) end
   local handle0 = io.popen("/bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv, "r")
   if handle0 == "" or handle0 == nil then
     ngx.status = 404
@@ -66,19 +66,19 @@ function _M.run(command, cid, expires, loggerON)
   ngx.print(result0)
 
   -- RUN EXPIRE COMMAND
-  if loggerON then ngx.say("expires: " .. expires) end
+  if loggerON then ngx.say("<br>expires: " .. expires) end
   local handle1 = io.popen("/usr/sbin/chroot " .. cidenv .. " /bin/sh +m -c \"sleep " .. expires .. " && rm -Rf " .. cidenv .. "\" &", "r")
   if handle1 == "" or handle1 == nil then
       ngx.status = 404
       return
   end
-  handle1:flush()
+  --handle1:flush()
   local result1 = handle1:read("*all")
   handle1:close()
   ngx.print(result1)
 
   -- RUN COMMAND
-  if loggerON then ngx.say("run: " .. command) end
+  if loggerON then ngx.say("<br>run: " .. command) end
   local handle2 = io.popen("/usr/sbin/chroot " .. cidenv .. " /bin/sh +m -c \"" .. command .. "\"", "r")
   if handle2 == "" or handle2 == nil then
       ngx.status = 404
