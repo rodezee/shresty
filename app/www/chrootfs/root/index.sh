@@ -13,11 +13,6 @@ echo "</head><body>"
 echo "<pre>"
 echo "Welcome to the SHELL Website!"
 echo "</pre>"
-echo "example: "
-for f in $BASEDIR/examples/*; do
-  echo "<p>$f</p>"
-done
-echo "<a href=\"./examples\">examples</a>"
 echo "<p><strong>PING:</strong></p>"
 echo "<pre>"
 ping -c 1 google.com
