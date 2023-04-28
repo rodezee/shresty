@@ -55,7 +55,7 @@ function _M.run(command, cid, expires, loggerON)
   if loggerON then ngx.say("<br>cid: " .. cid) end
   local cidenv = "/app/www/environments/" .. cid .. "/"
   if loggerON then ngx.say("<br>cidenv: " .. cidenv) end
-  local handle0 = io.popen("[ -d " .. cidenv .. " ] && echo \"\" > /.expkeep || /bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv, "r")
+  local handle0 = io.popen("[ -d " .. cidenv .. " ] && /bin/touch " .. cidenv .. ".expkeep || /bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv, "r")
   if handle0 == "" or handle0 == nil then
     ngx.status = 404
     return
@@ -67,7 +67,7 @@ function _M.run(command, cid, expires, loggerON)
 
   -- RUN EXPIRE COMMAND
   if loggerON then ngx.say("<br>expires: " .. expires) end
-  local handle1 = io.popen("/bin/sh +m -c \"sleep " .. expires .. " && [ -f /.expkeep ] || rm -Rf " .. cidenv .. "\" &", "w")
+  local handle1 = io.popen("/bin/sh +m -c \"sleep " .. expires .. " && [ -f " .. cidenv .. ".expkeep ] || rm -Rf " .. cidenv .. "\" &", "w")
   if handle1 == "" or handle1 == nil then
       ngx.status = 404
       return
