@@ -72,10 +72,7 @@ function _M.run(command, cid, expires, loggerON)
       ngx.status = 404
       return
   end
-  handle1:flush()
-  local result1 = handle1:write("sleep 10")
   handle1:close()
-  -- ngx.print(result1)
 
   -- RUN COMMAND
   if loggerON then ngx.say("<br>run: " .. command) end
