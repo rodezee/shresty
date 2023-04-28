@@ -67,7 +67,7 @@ function _M.run(command, cid, expires, loggerON)
 
   -- RUN EXPIRE COMMAND
   if loggerON then ngx.say("<br>expires: " .. expires) end
-  local handle1 = io.popen("/bin/sh +m -c \"sleep " .. expires .. " && rm -Rf " .. cidenv .. "\" &", "w")
+  local handle1 = io.popen("/bin/sh +m -c \"sleep " .. expires .. " && [ -f /.expkeep ] || rm -Rf " .. cidenv .. "\" &", "w")
   if handle1 == "" or handle1 == nil then
       ngx.status = 404
       return
