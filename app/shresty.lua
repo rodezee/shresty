@@ -42,4 +42,39 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   end
 end
 
+function _M.run(command, cid, loggerON)
+  if isempty(command) then command = "echo \"shresty\"" end
+  if isempty(cid) then cid = 0 end
+  if isempty(loggerON) then loggerON = false end
+
+  -- DISABLE io stdout
+  io.stdout:setvbuf 'no'
+
+  -- CREATE CHROOT ENVIRONMENT
+  if loggerON then ngx.say("cid: " .. cid) end
+  local cidenv = "/app/www/environments/" .. cid .. "/"
+  if loggerON then ngx.say("cidenv: " .. cidenv) end
+  local handle0 = io.popen( "/bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv, "r" )
+  if handle0 == "" or handle0 == nil then
+    ngx.status = 404
+    return
+  end
+  handle0:flush()
+  local result0 = handle0:read("*all")
+  handle0:close()
+  ngx.print(result0)
+
+  -- RUN COMMAND
+  if loggerON then ngx.say("run: " .. command) end
+  local handle1 = io.popen( "/usr/sbin/chroot " .. cidenv .. " /bin/sh +m -c \"" .. command .. "\"", "r" )
+  if handle1 == "" or handle1 == nil then
+      ngx.status = 404
+      return
+  end
+  handle1:flush()
+  local result1 = handle1:read("*all")
+  handle1:close()
+  ngx.print(result1)
+end
+
 return _M
