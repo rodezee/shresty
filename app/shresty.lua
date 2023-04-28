@@ -74,7 +74,7 @@ function _M.run(command, cid, expires, loggerON)
   end
   handle1:flush()
   -- local result1 = handle1:read("*all")
-  -- handle1:close()
+  handle1:close()
   -- ngx.print(result1)
 
   -- RUN COMMAND
