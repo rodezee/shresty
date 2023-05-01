@@ -49,6 +49,7 @@ function _M.cycle_cleenup(cycletime, envdir, loggerON)
   local handle = io.popen([[
     set -x
     mkdir -p ]]..envdir..[[
+
     while true
     do
       sleep "]]..cycletime..[["
