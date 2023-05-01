@@ -87,21 +87,8 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   ngx.print(result0)
 
   -- RUN EXPIRE COMMAND
-  local cres = _M.cycle_cleanup(envdir, true)
+  local cres = _M.cycle_cleanup(envdir, loggerON)
   if loggerON then ngx.say("<br>cycle_cleanup result: " .. cres) end
-
-  -- RUN EXPIRE COMMAND
-  -- if loggerON then ngx.say("<br>exptime: " .. exptime) end
-  -- local handle1 = io.popen("/app/www/cleanupexpenv.sh &", "r")
-  -- if handle1 == "" or handle1 == nil then
-  --     ngx.status = 404
-  --     return
-  -- end
-
-  -- -- handle1:flush()
-  -- -- local result1 = handle1:read("*all")
-  -- handle1:close()
-  -- -- ngx.print(result1)
 
   -- RUN COMMAND
   if loggerON then ngx.say("<br>run: " .. command) end
