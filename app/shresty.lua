@@ -42,7 +42,7 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   end
 end
 
-function cycle_cleanup(envdir, loggerON)
+function _M.cycle_cleanup(envdir, loggerON)
   if isempty(envdir) then envdir = "/app/www/environments/" end
   if isempty(loggerON) then loggerON = false end
   local handle = io.popen([[
@@ -87,7 +87,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   ngx.print(result0)
 
   -- RUN EXPIRE COMMAND
-  local cres = cycle_cleanup(envdir, true)
+  local cres = _M.cycle_cleanup(envdir, true)
   if loggerON then ngx.say("<br>cycle_cleanup result: " .. cres) end
 
   -- RUN EXPIRE COMMAND
