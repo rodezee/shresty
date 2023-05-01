@@ -46,7 +46,6 @@ function cycle_cleenup(envdir, loggerON)
   if isempty(envdir) then envdir = "/app/www/environments/" end
   if isempty(loggerON) then loggerON = false end
   local handle = io.popen([[
-    set -x
     mkdir -p ]]..envdir..[[;
     cd "]]..envdir..[[" && \
     for d in */ ; do
@@ -89,7 +88,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   -- RUN EXPIRE COMMAND
   local cres = cycle_cleenup(envdir, true)
-  if loggerON then ngx.say("<br>cycle result: " .. cres) end
+  if loggerON then ngx.say("<br>cycle_cleanup result: " .. cres) end
 
   -- RUN EXPIRE COMMAND
   -- if loggerON then ngx.say("<br>exptime: " .. exptime) end
