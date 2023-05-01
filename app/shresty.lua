@@ -42,8 +42,29 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   end
 end
 
-function _M.run(command, cid, exptime, loggerON)
+function _M.cycle_cleenup(cycletime, envdir, loggerON)
+  if isempty(envdir) then envdir = "/app/www/environments/" end
+  if isempty(cycletime) then cycletime = 60 end
+  if isempty(loggerON) then loggerON = false end
+  local handle = io.popen([[
+    while true; do
+      sleep "]]..cycletime..[["
+      cd "]]..envdir..[[" && \
+      for d in */ ; do
+          EXPFILE=".exptime$(echo -e  "$d" | sed 's/.$//')"
+          [ $(date +%s) -ge $(cat $EXPFILE) ] && rm -Rf $d $EXPFILE && echo "removed expired env: $d"
+      done
+    done &
+  ]])
+  handle:flush()
+  local result = handle:read("*all")
+  handle:close()
+  if loggerON then ngx.log(ngx.NOTICE, "cleanup: " .. result) end
+end
+
+function _M.run(command, envdir, cid, exptime, loggerON)
   if isempty(command) then command = "echo \"shresty\"" end
+  if isempty(envdir) then envdir = "/app/www/environments/" end
   if isempty(cid) then cid = 0 end
   if isempty(exptime) then exptime = 0 end
   if isempty(loggerON) then loggerON = false end
@@ -52,12 +73,12 @@ function _M.run(command, cid, exptime, loggerON)
   io.stdout:setvbuf 'no'
 
   -- CREATE CHROOT ENVIRONMENT
-  if loggerON then ngx.say("<br>cid: " .. cid) end
-  local cidenv = "/app/www/environments/" .. cid .. "/"
-  if loggerON then ngx.say("<br>cidenv: " .. cidenv) end
-  local expenv = "/app/www/environments/.exptime" .. cid
-  if loggerON then ngx.say("<br>expenv: " .. expenv) end
-  local handle0 = io.popen("/bin/mkdir -p " .. cidenv .. " && /bin/cp -ra /app/www/chrootfs/* " .. cidenv .. "; echo -e " .. exptime .. " > " .. expenv, "r")
+  local cdir = envdir .. cid .. "/"
+  if loggerON then ngx.say("<br>cdir: " .. cdir) end
+
+  local expfile = envdir .. ".exptime" .. cid
+  if loggerON then ngx.say("<br>expfile: " .. expfile) end
+  local handle0 = io.popen('/bin/mkdir -p "' .. cdir .. '" && /bin/cp -ra /app/www/chrootfs/* "' .. cdir .. '"; echo -e "' .. exptime .. '" > "' .. expfile .. '"', "r")
   if handle0 == "" or handle0 == nil then
     ngx.status = 404
     return
@@ -68,20 +89,21 @@ function _M.run(command, cid, exptime, loggerON)
   ngx.print(result0)
 
   -- RUN EXPIRE COMMAND
-  if loggerON then ngx.say("<br>exptime: " .. exptime) end
-  local handle1 = io.popen("/app/www/cleanupexpenv.sh &", "r")
-  if handle1 == "" or handle1 == nil then
-      ngx.status = 404
-      return
-  end
-  -- handle1:flush()
-  -- local result1 = handle1:read("*all")
-  handle1:close()
-  -- ngx.print(result1)
+  -- if loggerON then ngx.say("<br>exptime: " .. exptime) end
+  -- local handle1 = io.popen("/app/www/cleanupexpenv.sh &", "r")
+  -- if handle1 == "" or handle1 == nil then
+  --     ngx.status = 404
+  --     return
+  -- end
+
+  -- -- handle1:flush()
+  -- -- local result1 = handle1:read("*all")
+  -- handle1:close()
+  -- -- ngx.print(result1)
 
   -- RUN COMMAND
   if loggerON then ngx.say("<br>run: " .. command) end
-  local handle2 = io.popen("/usr/sbin/chroot " .. cidenv .. " /bin/sh +m -c \"" .. command .. "\"", "r")
+  local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
   if handle2 == "" or handle2 == nil then
       ngx.status = 404
       return
