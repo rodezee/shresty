@@ -42,7 +42,7 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   end
 end
 
-function _M.cycle_cleenup(cycletime, envdir, loggerON)
+function cycle_cleenup(envdir, loggerON)
   if isempty(envdir) then envdir = "/app/www/environments/" end
   if isempty(cycletime) then cycletime = 60 end
   if isempty(loggerON) then loggerON = false end
@@ -50,8 +50,7 @@ function _M.cycle_cleenup(cycletime, envdir, loggerON)
     set -x
     mkdir -p ]]..envdir..[[
 
-    while true
-    do
+    #while true ; do
       sleep "]]..cycletime..[["
 
       cd "]]..envdir..[[" && \
@@ -59,12 +58,13 @@ function _M.cycle_cleenup(cycletime, envdir, loggerON)
         EXPFILE=".exptime$(echo -e  "$d" | sed 's/.$//')"
         [ -f $EXPFILE ] && [ $(date +%s) -ge $(cat $EXPFILE) ] && rm -Rf $d $EXPFILE && echo "removed expired env: $d"
       done
-    done &
+    #done &
   ]])
   handle:flush()
   local result = handle:read("*all")
   handle:close()
   if loggerON then ngx.log(ngx.NOTICE, result) end
+  return result
 end
 
 function _M.run(command, envdir, cid, exptime, loggerON)
@@ -92,6 +92,10 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   local result0 = handle0:read("*all")
   handle0:close()
   ngx.print(result0)
+
+  -- RUN EXPIRE COMMAND
+  local cres = cycle_cleenup(envdir, true)
+  if loggerON then ngx.say("<br>cycle result: " .. cres) end
 
   -- RUN EXPIRE COMMAND
   -- if loggerON then ngx.say("<br>exptime: " .. exptime) end
