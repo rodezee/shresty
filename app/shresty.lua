@@ -47,16 +47,17 @@ function _M.cycle_cleenup(cycletime, envdir, loggerON)
   if isempty(cycletime) then cycletime = 60 end
   if isempty(loggerON) then loggerON = false end
   local handle = io.popen([[
-    set -x
     mkdir -p ]]..envdir..[[
 
     while true
     do
+      set -x
       sleep "]]..cycletime..[["
+
       cd "]]..envdir..[[" && \
       for d in */ ; do
         EXPFILE=".exptime$(echo -e  "$d" | sed 's/.$//')"
-        [ $(date +%s) -ge $(cat $EXPFILE) ] && rm -Rf $d $EXPFILE && echo "removed expired env: $d"
+        [ -f $EXPFILE ] && [ $(date +%s) -ge $(cat $EXPFILE) ] && rm -Rf $d $EXPFILE && echo "removed expired env: $d"
       done
     done &
   ]])
