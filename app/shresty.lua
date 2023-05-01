@@ -76,15 +76,15 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   local expfile = envdir .. ".exptime" .. cid
   if loggerON then ngx.say("<br>expfile: " .. expfile) end
-  local handle0 = io.popen('/bin/mkdir -p "' .. cdir .. '" && /bin/cp -ra /app/www/chrootfs/* "' .. cdir .. '"; echo -e "' .. exptime .. '" > "' .. expfile .. '"', "r")
-  if handle0 == "" or handle0 == nil then
+  local handle1 = io.popen('/bin/mkdir -p "' .. cdir .. '" && /bin/cp -ra /app/www/chrootfs/* "' .. cdir .. '"; echo -e "' .. exptime .. '" > "' .. expfile .. '"', "r")
+  if handle1 == "" or handle1 == nil then
     ngx.status = 404
     return
   end
-  handle0:flush()
-  local result0 = handle0:read("*all")
-  handle0:close()
-  ngx.print(result0)
+  handle1:flush()
+  local result1 = handle1:read("*all")
+  handle1:close()
+  ngx.print(result1)
 
   -- RUN EXPIRE COMMAND
   local cres = _M.cycle_cleanup(envdir, loggerON)
