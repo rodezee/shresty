@@ -47,6 +47,7 @@ function _M.cycle_cleenup(cycletime, envdir, loggerON)
   if isempty(cycletime) then cycletime = 60 end
   if isempty(loggerON) then loggerON = false end
   local handle = io.popen([[
+    mkdir -p ]]..envdir..[[
     while true; do
       sleep "]]..cycletime..[["
       cd "]]..envdir..[[" && \
