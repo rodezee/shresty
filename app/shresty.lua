@@ -44,7 +44,6 @@ end
 
 function cycle_cleenup(envdir, loggerON)
   if isempty(envdir) then envdir = "/app/www/environments/" end
-  if isempty(cycletime) then cycletime = 60 end
   if isempty(loggerON) then loggerON = false end
   local handle = io.popen([[
     set -x
