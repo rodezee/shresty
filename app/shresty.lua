@@ -60,7 +60,7 @@ function _M.cycle_cleenup(cycletime, envdir, loggerON)
   handle:flush()
   local result = handle:read("*all")
   handle:close()
-  if loggerON then ngx.log(ngx.NOTICE, "cleanup: " .. result) end
+  if loggerON then ngx.log(ngx.NOTICE, result) end
 end
 
 function _M.run(command, envdir, cid, exptime, loggerON)
