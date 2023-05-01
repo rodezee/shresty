@@ -5,7 +5,7 @@ local function isempty(s)
   return s == nil or s == ''
 end
 
-function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
+function _M.exec(command, username, password, basicauth, cid, loggerON)
   if isempty(command) then command = "echo 'Shresty'" end--; ngx.log(ngx.ALERT, "command: " .. command)
   if isempty(username) then username = os.getenv("SHRESTY_USER") end
   if isempty(password) then password = os.getenv("SHRESTY_PASSWORD") end--; ngx.log(ngx.ALERT, "username: " .. username .. "  userpassword: " .. userpassword)
@@ -17,10 +17,8 @@ function _M.exec(command, username, password, basicauth, jwt_secret, loggerON)
   end
   if isempty(loggerON) then loggerON = false end
 
-  local shell = require "shell-games"
-
   -- EXECUTE COMMAND
-  local result, err = shell.run_raw(command, { capture = true })
+  local result, err = _M.run(command, cid)
 
   -- RETURN ERROR
   if err then
