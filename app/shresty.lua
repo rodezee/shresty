@@ -5,16 +5,14 @@ local function isempty(s)
   return s == nil or s == ''
 end
 
-function str_split(s, sep)
+local function str_split(s, sep)
   if sep == nil then
       sep = '%s'
   end 
-
   local res = {}
   local func = function(w)
       table.insert(res, w)
   end 
-
   string.gsub(s, '[^'..sep..']+', func)
   return res 
 end
