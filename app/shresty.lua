@@ -19,7 +19,7 @@ function str_split(s, sep)
   return res 
 end
 
-function get_client_ip() 
+function _M.get_client_ip() 
 
   -- Default to REMOTE_ADDR
   local ip = ngx.var.remote_addr
