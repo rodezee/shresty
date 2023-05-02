@@ -17,34 +17,7 @@ local function str_split(s, sep)
   return res 
 end
 
-function _M.get_client_ip() 
-
-  -- Default to REMOTE_ADDR
-  local ip = ngx.var.remote_addr
-
-  local proxy_headers = {
-      ngx.var.http_cf_connecting_ip,  -- CloudFlare
-      ngx.var.http_incap_client_ip,   -- Incapsula
-      ngx.var.http_x_sucuri_clientip, -- Sucuri
-      ngx.var.http_x_forwarded_for    -- Any Proxy
-  }
-
-  -- Check for alternate headers indicating a forwarded IP address
-  for _,proxy_header in ipairs ( proxy_headers ) do
-      if proxy_header then
-          local forwarded_ips = str_split( proxy_header , ',' )
-          local forwarded_ip = forwarded_ips[1]
-          if forwarded_ip then
-              ip = forwarded_ip
-              break
-          end
-      end
-  end
-
-  return ip;
-end
-
-function _M.exec(command, username, password, basicauth, cid, loggerON)
+function _M.exec(command, username, password, basicauth, cid, exptime, loggerON)
   if isempty(command) then command = "echo 'Shresty'" end--; ngx.log(ngx.ALERT, "command: " .. command)
   if isempty(username) then username = os.getenv("SHRESTY_USER") end
   if isempty(password) then password = os.getenv("SHRESTY_PASSWORD") end--; ngx.log(ngx.ALERT, "username: " .. username .. "  userpassword: " .. userpassword)
@@ -57,7 +30,7 @@ function _M.exec(command, username, password, basicauth, cid, loggerON)
   if isempty(loggerON) then loggerON = false end
 
   -- EXECUTE COMMAND
-  local result, err = _M.run(command, cid)
+  local result, err = _M.run(command, "/app/www/environments/", cid, exptime)
 
   -- RETURN ERROR
   if err then
