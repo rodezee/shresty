@@ -60,34 +60,33 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   local expfile = envdir .. ".exptime" .. cid
   if loggerON then ngx.log(ngx.NOTICE, "<br>expfile: " .. expfile) end
-  local handle1 = io.popen('/bin/mkdir -p "' .. cdir .. '" && /bin/cp -ra /app/www/chrootfs/* "' .. cdir .. '"; echo -e "' .. exptime .. '" > "' .. expfile .. '"', "r")
-  if handle1 == "" or handle1 == nil then
+  local handle1 = io.popen('/bin/mkdir -p "'..cdir..'" && /bin/cp -ra /app/www/chrootfs/* "'..cdir..'"; echo -e "'..exptime..'" > "'..expfile..'"', "r")
+  local result1 = handle1:read('*all')
+  local rc1 = {handle1:close()}
+  if rc1[1] then
+    ngx.print(result1)
+  else
     ngx.status = 404
-    return
+    ngx.print("Error during creation of environment: "..cid.."\ncode: "..rc1[3])
   end
-  handle1:flush()
-  local result1 = handle1:read("*all")
-  handle1:close()
-  ngx.log(ngx.NOTICE, "env created: "..result1)
+  if loggerON then ngx.log(ngx.NOTICE, "env created: "..result1) end
 
   -- RUN EXPIRE COMMAND
   local cres = _M.cycle_cleanup(envdir, loggerON)
-  if loggerON then ngx.log(ngx.NOTICE, "<br>cycle_cleanup result: " .. cres) end
+  if loggerON then ngx.log(ngx.NOTICE, "cycle_cleanup result: " .. cres) end
 
   -- RUN COMMAND
-  if loggerON then ngx.log(ngx.NOTICE, "<br>run: " .. command) end
+  if loggerON then ngx.log(ngx.NOTICE, "command: " .. command) end
   local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
-
-  -- This will read all of the output, as always
   local result2 = handle2:read('*all')
-  local rc = {handle2:close()}
-  if rc[1] then
+  local rc2 = {handle2:close()}
+  if rc2[1] then
     ngx.print(result2)
   else
     ngx.status = 404
-    ngx.print("Error during execution of shell: "..command.."\ncode: "..rc[3])
+    ngx.print("Error during execution of shell: "..command.."\ncode: "..rc2[3])
   end
-  --ngx.say("\n2: "..rc[2].."\n3: "..rc[3])
+  --ngx.say("\n2: "..rc2[2].."\n3: "..rc2[3])
 
   -- if handle2 == "" or handle2 == nil then
   --     ngx.status = 404
