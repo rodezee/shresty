@@ -72,16 +72,16 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   -- RUN COMMAND
   -- neatify command
-  local cmd = command:gsub('"', '\"')
-  if loggerON then ngx.log(ngx.NOTICE, "command: " .. cmd) end
-  local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. cmd .. "\"", "r")
+  command = command:gsub('"', '\\"')
+  if loggerON then ngx.log(ngx.NOTICE, "command: " .. command) end
+  local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
   local result2 = handle2:read('*all')
   local rc2 = {handle2:close()}
   if rc2[1] then
     ngx.print(result2)
   else
     ngx.status = 404
-    ngx.print("Error during execution of shell: "..cmd.."\ncode: "..rc2[3])
+    ngx.print("Error during execution of shell: "..command.."\ncode: "..rc2[3])
   end
   --ngx.say("\n2: "..rc2[2].."\n3: "..rc2[3])
 
