@@ -76,7 +76,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   -- RUN COMMAND
   if loggerON then ngx.log(ngx.NOTICE, "<br>run: " .. command) end
-  local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
+  local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c '" .. command .. "'", "r")
 
   -- This will read all of the output, as always
   local result2 = handle2:read('*all')
