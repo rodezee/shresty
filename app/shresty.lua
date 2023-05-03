@@ -45,7 +45,7 @@ function _M.cycle_cleanup(envdir, loggerON)
 end
 
 function _M.run(command, envdir, cid, exptime, loggerON)
-  if isempty(command) then command = "echo \"shresty\"" end
+  if isempty(command) then command = "echo \"Shresty\"" end
   if isempty(envdir) then envdir = "/app/www/environments/" end
   if isempty(cid) then cid = 0 end
   if isempty(exptime) then exptime = 0 end
@@ -64,11 +64,11 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   handle1:flush()
   local result1 = handle1:read("*all")
   local rc1 = {handle1:close()}
-  if loggerON then ngx.log(ngx.NOTICE, "env creation: "..result1.." code:"..rc1[3]) end
+  if loggerON then ngx.log(ngx.NOTICE, "env_creation: "..result1.." code:"..rc1[3]) end
 
   -- RUN EXPIRE COMMAND
   local cres = _M.cycle_cleanup(envdir, loggerON)
-  if loggerON then ngx.log(ngx.NOTICE, "cycle_cleanup result: " .. cres) end
+  if loggerON then ngx.log(ngx.NOTICE, "cycle_cleanup: " .. cres) end
 
   -- RUN COMMAND
   if loggerON then ngx.log(ngx.NOTICE, "command: " .. command) end
