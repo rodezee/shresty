@@ -56,10 +56,10 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   -- CREATE CHROOT ENVIRONMENT
   local cdir = envdir .. cid .. "/"
-  if loggerON then ngx.say("<br>cdir: " .. cdir) end
+  if loggerON then ngx.log(ngx.NOTICE, "<br>cdir: " .. cdir) end
 
   local expfile = envdir .. ".exptime" .. cid
-  if loggerON then ngx.say("<br>expfile: " .. expfile) end
+  if loggerON then ngx.log(ngx.NOTICE, "<br>expfile: " .. expfile) end
   local handle1 = io.popen('/bin/mkdir -p "' .. cdir .. '" && /bin/cp -ra /app/www/chrootfs/* "' .. cdir .. '"; echo -e "' .. exptime .. '" > "' .. expfile .. '"', "r")
   if handle1 == "" or handle1 == nil then
     ngx.status = 404
@@ -72,10 +72,10 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   -- RUN EXPIRE COMMAND
   local cres = _M.cycle_cleanup(envdir, loggerON)
-  if loggerON then ngx.say("<br>cycle_cleanup result: " .. cres) end
+  if loggerON then ngx.log(ngx.NOTICE, "<br>cycle_cleanup result: " .. cres) end
 
   -- RUN COMMAND
-  if loggerON then ngx.say("<br>run: " .. command) end
+  if loggerON then ngx.log(ngx.NOTICE, "<br>run: " .. command) end
   local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
 
   -- This will read all of the output, as always
