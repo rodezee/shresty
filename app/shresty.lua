@@ -80,13 +80,10 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   -- This will read all of the output, as always
   local output = handle2:read('*all')
-  -- This will get a table with some return stuff
-  -- rc[1] will be true, false or nil
-  -- rc[3] will be the signal
   local rc = {handle2:close()}
-  if rc[1] == nil then ngx.say("rc 1: nil\n") end
-  if rc[1] == true then ngx.say("rc 1: true\n") end
-  if rc[1] == false then ngx.say("rc 1: false\n") end
+  if rc[1] then
+    ngx.say("output: "..output)
+  end
   ngx.say("\n2: "..rc[2].."\n3: "..rc[3])
   --ngx.say("rc[3]: "..rc[3])
 
