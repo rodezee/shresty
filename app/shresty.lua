@@ -79,13 +79,15 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
 
   -- This will read all of the output, as always
-  local output = handle2:read('*all')
+  local result2 = handle2:read('*all')
   local rc = {handle2:close()}
   if rc[1] then
-    ngx.say("output: "..output)
+    ngx.print(result2)
+  else
+    ngx.status = 404
+    ngx.print("Error during execution of shell: "..rc[3])
   end
-  ngx.say("\n2: "..rc[2].."\n3: "..rc[3])
-  --ngx.say("rc[3]: "..rc[3])
+  --ngx.say("\n2: "..rc[2].."\n3: "..rc[3])
 
   -- if handle2 == "" or handle2 == nil then
   --     ngx.status = 404
