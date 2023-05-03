@@ -84,7 +84,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   -- rc[1] will be true, false or nil
   -- rc[3] will be the signal
   local rc = {handle2:close()}
-  ngx.say("\n3: "..rc[3])
+  ngx.say("\n2: "..rc[2].."\n3: "..rc[3])
   --ngx.say("rc[3]: "..rc[3])
 
   -- if handle2 == "" or handle2 == nil then
