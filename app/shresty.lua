@@ -76,7 +76,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   -- RUN COMMAND
   if loggerON then ngx.log(ngx.NOTICE, "<br>run: " .. command) end
-  local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c " .. command .. "", "r")
+  local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
 
   -- This will read all of the output, as always
   local result2 = handle2:read('*all')
@@ -85,7 +85,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
     ngx.print(result2)
   else
     ngx.status = 404
-    ngx.print("Error during execution of shell: '"..command.."'\ncode: "..rc[3])
+    ngx.print("Error during execution of shell: "..command.."\ncode: "..rc[3])
   end
   --ngx.say("\n2: "..rc[2].."\n3: "..rc[3])
 
