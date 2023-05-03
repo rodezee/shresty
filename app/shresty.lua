@@ -73,7 +73,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   -- RUN COMMAND
   -- neatify command
   command = command:gsub('"', '\\"')
-  command = command:gsub('\$', '\\$')
+  command = command:gsub('\$', '\\\$')
   if loggerON then ngx.log(ngx.NOTICE, "command: " .. command) end
   local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
   local result2 = handle2:read('*all')
