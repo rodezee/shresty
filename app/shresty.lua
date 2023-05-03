@@ -84,7 +84,8 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   -- rc[1] will be true, false or nil
   -- rc[3] will be the signal
   local rc = {handle2:close()}
-  ngx.say("0: "..rc[0].."\n1: "..rc[1].."\n2: "..rc[2].."\n3: "..rc[3])
+  --ngx.say("0: "..rc[0].."\n1: "..rc[1].."\n2: "..rc[2].."\n3: "..rc[3])
+  ngx.say("rc[3]: "..rc[3])
 
   -- if handle2 == "" or handle2 == nil then
   --     ngx.status = 404
