@@ -85,7 +85,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
     ngx.print(result2)
   else
     ngx.status = 404
-    ngx.print("Error during execution of shell: "..rc[3])
+    ngx.print("Error during execution of shell: '"..command.."'\ncode: "..rc[3])
   end
   --ngx.say("\n2: "..rc[2].."\n3: "..rc[3])
 
