@@ -1,4 +1,4 @@
--- module
+-- module Shresty
 local _M = {}
 
 local function isempty(s)
@@ -68,7 +68,7 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   handle1:flush()
   local result1 = handle1:read("*all")
   handle1:close()
-  ngx.print(result1)
+  ngx.log(ngx.NOTICE, "env created: "..result1)
 
   -- RUN EXPIRE COMMAND
   local cres = _M.cycle_cleanup(envdir, loggerON)
