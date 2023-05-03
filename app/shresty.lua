@@ -72,7 +72,8 @@ function _M.run(command, envdir, cid, exptime, loggerON)
 
   -- RUN COMMAND
   -- neatify command
-  local cmd = command:gsub('"', '\"'):gsub('$', '\$')
+  local cmd0 = command:gsub('"', '\"')
+  cmd = cmd0:gsub('$', '\$')
   if loggerON then ngx.log(ngx.NOTICE, "command: " .. cmd) end
   local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. cmd .. "\"", "r")
   local result2 = handle2:read('*all')
