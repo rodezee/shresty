@@ -77,14 +77,23 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   -- RUN COMMAND
   if loggerON then ngx.say("<br>run: " .. command) end
   local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
-  if handle2 == "" or handle2 == nil then
-      ngx.status = 404
-      return
-  end
-  handle2:flush()
-  local result2 = handle2:read("*all")
-  handle2:close()
-  ngx.print(result2)
+
+  -- This will read all of the output, as always
+  local output = file:read('*all')
+  -- This will get a table with some return stuff
+  -- rc[1] will be true, false or nil
+  -- rc[3] will be the signal
+  local rc = {file:close()}
+  ngx.say("0: "..rc[0].."\n1: "..rc[1].."\n2: "..rc[2].."\n3: "..rc[3])
+  
+  -- if handle2 == "" or handle2 == nil then
+  --     ngx.status = 404
+  --     return
+  -- end
+  -- handle2:flush()
+  -- local result2 = handle2:read("*all")
+  -- handle2:close()
+  -- ngx.print(result2)
 end
 
 return _M
