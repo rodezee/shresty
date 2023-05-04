@@ -39,8 +39,8 @@ function _M.cycle_cleanup(envdir, loggerON)
   ]])
   handle:flush()
   local result = handle:read("*all")
-  handle:close()
-  if loggerON then ngx.log(ngx.NOTICE, result) end
+  local rc = {handle:close()}
+  if loggerON then ngx.log(ngx.NOTICE, "env_cycle_cleanup: "..result.." code:"..rc[3]) end
   return result
 end
 
@@ -71,10 +71,9 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   if loggerON then ngx.log(ngx.NOTICE, "cycle_cleanup: " .. cres) end
 
   -- RUN COMMAND
-  -- neatify command
   command = command:gsub('"', '\\"'):gsub("%$", "\\$")
   if loggerON then ngx.log(ngx.NOTICE, "command: " .. command) end
-  local handle2 = io.popen("/usr/sbin/chroot " .. cdir .. " /bin/sh +m -c \"" .. command .. "\"", "r")
+  local handle2 = io.popen("/usr/sbin/chroot "..cdir.." /bin/sh +m -c \""..command.."\"", "r")
   local result2 = handle2:read('*all')
   local rc2 = {handle2:close()}
   if rc2[1] then
