@@ -66,9 +66,10 @@ function _M.run(command, envdir, cid, exptime, loggerON)
   local rc1 = {handle1:close()}
   if loggerON then ngx.log(ngx.NOTICE, "env_creation: "..result1.." code:"..rc1[3]) end
 
-  -- RUN EXPIRE COMMAND
-  local cres = _M.cycle_cleanup(envdir, loggerON)
-  if loggerON then ngx.log(ngx.NOTICE, "cycle_cleanup: " .. cres) end
+  -- -- RUN EXPIRE COMMAND
+  -- local cres = _M.cycle_cleanup(envdir, loggerON)
+  -- if loggerON then ngx.log(ngx.NOTICE, "cycle_cleanup: " .. cres) end
+  -- -- this is now done by ngx.timer job
 
   -- RUN COMMAND
   command = command:gsub('"', '\\"'):gsub("%$", "\\$")
