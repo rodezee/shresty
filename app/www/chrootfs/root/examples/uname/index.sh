@@ -8,5 +8,5 @@ echo '<meta http-equiv="Content-type" content="text/html;charset=UTF-8">'
 echo '<meta name="ROBOTS" content="noindex">'
 echo "</head><body><pre>"
 echo "COMMAND uname: "
-uname
+/bin/uname
 echo "</pre></body></html>"

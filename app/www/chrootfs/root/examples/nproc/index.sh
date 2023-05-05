@@ -7,6 +7,6 @@ echo '<meta name="keywords" content="'$NAME'">'
 echo '<meta http-equiv="Content-type" content="text/html;charset=UTF-8">'
 echo '<meta name="ROBOTS" content="noindex">'
 echo "</head><body><pre>"
-echo "COMMAND: number of processors"
-nproc
+echo "COMMAND: nproc"
+/usr/bin/nproc
 echo "</pre></body></html>"
