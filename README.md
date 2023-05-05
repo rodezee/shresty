@@ -9,7 +9,7 @@ clone this repository, jump into it:
 git clone https://github.com/rodezee/shresty && cd shresty
 ``
   
-and run setup.sh:  
+and run:  
 ``
 ./test-shresty.sh
 ``
