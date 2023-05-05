@@ -8,8 +8,6 @@ services:
     #build: .
     restart: always
     environment:
-      ENTRYPOINT: /bin/sh
-      COMMAND: index.sh
       COOKIE_SECRET: V2OPWuh8RaS6ewUGL580qCr
     ports:
       - 1080:1080
