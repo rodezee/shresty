@@ -22,6 +22,7 @@
       <nav>
         <a href="home">Home</a>
         <a href="exec">Exec</a>
+        <a href="examples">Examples</a>
       </nav>
       <script>ShrestyJS.createPageSwitchers("header nav a", "href");</script>
     </header>
@@ -47,6 +48,21 @@
         </p>
       </form>
       <textarea id="requestResultElem" rows="10"></textarea>
+    </main>
+    <main id="examples" style="display: none;">
+      <p>
+        <strong>Examples</strong>
+      </p>
+      <form action="javascript:ShrestyJS.requestToElem(document.getElementById('CMDinputExamples').value, document.getElementById('requestResultElemExamples'))">
+        <p>
+          <label>find more in /app/www/chrootfs/root/examples:</label>
+          <textarea id="CMDinputExamples" rows="4">tree /app/www/chrootfs/root/examples</textarea>
+        </p>
+        <p>
+          <input type="submit" value="Request" />
+        </p>
+      </form>
+      <textarea id="requestResultElemExamples" rows="10"></textarea>
     </main>
     <footer>
       Shresty
